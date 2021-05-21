@@ -8,6 +8,8 @@ const express = require('express'),
 app.set('privatekey', config.key);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+var cors = require('cors');
+app.use(cors());
 
 middlewareTokenCheckRouter.use((req, res, next) => {
   const token = req.headers['access-token'];
@@ -17,7 +19,6 @@ middlewareTokenCheckRouter.use((req, res, next) => {
         return res.json({ err: 'Token inválida' });
       } else {
         req.decoded = decoded;
-        console.log(decoded);
         next();
       }
     });
@@ -29,10 +30,11 @@ middlewareTokenCheckRouter.use((req, res, next) => {
 });
 
 app.get('/', function (req, res) {
-  res.send('Inicio');
+  res.send('Lo que hay en /');
 });
 
 app.post('/login', (req, res) => {
+  console.log(req.body);
   if (req.body.user === 'admin' && req.body.pass === '1234') {
     const payload = {
       check: true,
@@ -48,9 +50,30 @@ app.post('/login', (req, res) => {
 
 app.get('/data', middlewareTokenCheckRouter, (req, res) => {
   const datos = [
-    { id: 1, nombre: 'Asfo' },
-    { id: 2, nombre: 'Denisse' },
-    { id: 3, nombre: 'Carlos' },
+    { id: 1, name: 'Cálculo', nota: 10 },
+    { id: 2, name: 'Física', nota: 6 },
+    { id: 3, name: 'Biología', nota: 80 },
+    { id: 1, name: 'Cálculo', nota: 10 },
+    { id: 2, name: 'Física', nota: 6 },
+    { id: 3, name: 'Biología', nota: 80 },
+    { id: 1, name: 'Cálculo', nota: 10 },
+    { id: 2, name: 'Física', nota: 6 },
+    { id: 3, name: 'Biología', nota: 80 },
+    { id: 1, name: 'Cálculo', nota: 10 },
+    { id: 2, name: 'Física', nota: 6 },
+    { id: 3, name: 'Biología', nota: 80 },
+    { id: 1, name: 'Cálculo', nota: 10 },
+    { id: 2, name: 'Física', nota: 6 },
+    { id: 3, name: 'Biología', nota: 80 },
+    { id: 1, name: 'Cálculo', nota: 10 },
+    { id: 2, name: 'Física', nota: 6 },
+    { id: 3, name: 'Biología', nota: 80 },
+    { id: 1, name: 'Cálculo', nota: 10 },
+    { id: 2, name: 'Física', nota: 6 },
+    { id: 3, name: 'Biología', nota: 80 },
+    { id: 1, name: 'Cálculo', nota: 10 },
+    { id: 2, name: 'Física', nota: 6 },
+    { id: 3, name: 'Biología', nota: 80 },
   ];
 
   res.json(datos);
